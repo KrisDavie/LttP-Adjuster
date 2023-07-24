@@ -284,8 +284,8 @@ function preparePatchedRom(originalRom, patchedRom){
 		(rom,sprite) => {
 				zeldaPatcher(rom,indexedDb.obj.beep,indexedDb.obj.color,
 					indexedDb.obj.quickswap,indexedDb.obj.speed,!indexedDb.obj.music,
-					indexedDb.obj.resume,indexedDb.obj.flashing,sprite,
-					indexedDb.obj.owp,indexedDb.obj.uwp);
+					indexedDb.obj.resume,indexedDb.obj.flashing,indexedDb.obj.rename_multi,
+					indexedDb.obj.multi_names,sprite,indexedDb.obj.owp,indexedDb.obj.uwp);
 				setMessage('create');
 				rom.save();
 	});
@@ -298,8 +298,8 @@ function adjustPatch(romToAdjust){
 		(rom,sprite) => {
 				zeldaPatcher(rom,indexedDb.obj.beep,indexedDb.obj.color,
 					indexedDb.obj.quickswap,indexedDb.obj.speed,!indexedDb.obj.music,
-					indexedDb.obj.resume,indexedDb.obj.flashing,sprite,
-					indexedDb.obj.owp,indexedDb.obj.uwp);
+					indexedDb.obj.resume,indexedDb.obj.flashing,indexedDb.obj.rename_multi,
+					indexedDb.obj.multi_names,sprite,indexedDb.obj.owp,indexedDb.obj.uwp);
 				setMessage('apply');
 				rom.save();
 		});

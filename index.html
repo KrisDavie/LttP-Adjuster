@@ -58,7 +58,31 @@
 		];
 		*/
 	</script>
-	
+
+	<script>
+		function toggleNamesInput(instance) {
+			// Get the checkbox
+			if (instance === '2') {
+				var checkBox = document.getElementById("checkbox-renamemulti2");
+				var multiDivs = document.getElementsByClassName("renamemulti2");
+			} else {
+				var checkBox = document.getElementById("checkbox-renamemulti");
+				var multiDivs = document.getElementsByClassName("renamemulti");
+			}
+			// If the checkbox is checked, display the output text
+			if (checkBox.checked == true) {
+				for (var i = 0; i < multiDivs.length; i++) {
+					var div = multiDivs[i];
+					div.style.display = "block";
+				}
+			} else {
+				for (var i = 0; i < multiDivs.length; i++) {
+					var div = multiDivs[i];
+					div.style.display = "none";
+				}
+			}
+		}
+	</script>
 	
 	<!-- custom code for RHDN -->
 	<!--
@@ -83,7 +107,8 @@
 	-->
 
 </head>
-<body><div id="column">
+<body>
+	<div id="column">
 
 <!-- APP -->
 <div id="wrapper">
@@ -113,6 +138,14 @@
 			<div class="leftcol">Reduce Flashing:</div>
 			<div class="rightcol">
 				<input type="checkbox" id="checkbox-flashing" />
+			</div>
+			<div class="leftcol">Rename Multi Players:</div>
+			<div class="rightcol">
+				<input type="checkbox" id="checkbox-renamemulti" onclick="toggleNamesInput()" />
+			</div>
+			<div class="leftcol renamemulti">New Names:</div>
+			<div class="rightcol renamemulti">
+				<input type="text" id="input-renamemulti" placeholder="Link,Zelda,Ganon..." />
 			</div>
 			<div class="leftcol">Sprite:</div>
 			<div class="rightcol">
@@ -212,6 +245,14 @@
 				<div class="leftcol">Reduce Flashing:</div>
 				<div class="rightcol">
 					<input type="checkbox" id="checkbox-flashing2" />
+				</div>
+				<div class="leftcol">Rename Multi Players:</div>
+				<div class="rightcol">
+					<input type="checkbox" id="checkbox-renamemulti2" onclick="toggleNamesInput('2')" />
+				</div>
+				<div class="leftcol renamemulti2">New Names:</div>
+				<div class="rightcol renamemulti2">
+					<input type="text" id="input-renamemulti2" placeholder="Link,Zelda,Ganon..." />
 				</div>
 				<div class="leftcol">Sprite:</div>
 				<div class="rightcol">
