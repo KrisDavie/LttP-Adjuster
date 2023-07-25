@@ -45,7 +45,8 @@ function zeldaPatcher(
   menuSpeedPatch(rom, menuSpeed);
   heartBeepPatch(rom, beepRate);
   heartColorPatch(rom, heartColor);
-  if (renameMuliPlayers) {
+  if (renameMuliPlayers && multiNames !== "") {
+    console.log(multiNames);
     namesPatch(rom, multiNames);
   }
   if (sprite) {
@@ -54,8 +55,7 @@ function zeldaPatcher(
   vanillaPalette(rom);
   paletteShufflePatch(rom, uwPalettes, owPalettes);
   writeCrc(rom);
-  if (multidata !== undefined) {
-    console.log("multidata", multidata);
+  if (multidata !== undefined && multiNames !== "") {
     updateMultidata(multidata);
   }
 }
