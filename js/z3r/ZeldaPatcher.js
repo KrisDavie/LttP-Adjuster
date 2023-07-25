@@ -33,6 +33,7 @@ function zeldaPatcher(
   isFlashingReduced,
   renameMuliPlayers,
   multiNames,
+  multidata,
   sprite,
   owPalettes,
   uwPalettes
@@ -53,6 +54,9 @@ function zeldaPatcher(
   vanillaPalette(rom);
   paletteShufflePatch(rom, uwPalettes, owPalettes);
   writeCrc(rom);
+  if (multidata !== null) {
+    updateMultidata(multidata);
+  }
 }
 
 function quickswapPatch(rom, isQuickswap) {

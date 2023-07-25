@@ -275,68 +275,105 @@ function _readPatchFile(){
 
 
 
-function preparePatchedRom(originalRom, patchedRom){
-	patchedRom.fileName=patchFile.fileName.replace(/\.([^\.]*?)$/, '.sfc');
-	patchedRom.fileType=originalRom.fileType;
+function preparePatchedRom(originalRom, patchedRom) {
+  patchedRom.fileName = patchFile.fileName.replace(/\.([^\.]*?)$/, ".sfc");
+  patchedRom.fileType = originalRom.fileType;
 
-	// Adjust the ROM
-	fetchSpriteData(patchedRom,indexedDb.obj.sprite,
-		(rom,sprite) => {
-				zeldaPatcher(rom,indexedDb.obj.beep,indexedDb.obj.color,
-					indexedDb.obj.quickswap,indexedDb.obj.speed,!indexedDb.obj.music,
-					indexedDb.obj.resume,indexedDb.obj.flashing,indexedDb.obj.rename_multi,
-					indexedDb.obj.multi_names,sprite,indexedDb.obj.owp,indexedDb.obj.uwp);
-				setMessage('create');
-				rom.save();
-	});
+  // Adjust the ROM
+  fetchSpriteData(patchedRom, indexedDb.obj.sprite, (rom, sprite) => {
+    zeldaPatcher(
+      rom,
+      indexedDb.obj.beep,
+      indexedDb.obj.color,
+      indexedDb.obj.quickswap,
+      indexedDb.obj.speed,
+      !indexedDb.obj.music,
+      indexedDb.obj.resume,
+      indexedDb.obj.flashing,
+      indexedDb.obj.rename_multi,
+      indexedDb.obj.multi_names,
+      el("input-multidata2").files[0],
+      sprite,
+      indexedDb.obj.owp,
+      indexedDb.obj.uwp
+    );
+    setMessage("create");
+    rom.save();
+  });
 }
 
-function adjustPatch(romToAdjust){
-	indexedDb.save('apply');
-	romToAdjust.fileName=romToAdjust.fileName.replace(/\.([^\.]*?)$/, ' (adjusted).$1');	
-	fetchSpriteData(romToAdjust,indexedDb.obj.sprite,
-		(rom,sprite) => {
-				zeldaPatcher(rom,indexedDb.obj.beep,indexedDb.obj.color,
-					indexedDb.obj.quickswap,indexedDb.obj.speed,!indexedDb.obj.music,
-					indexedDb.obj.resume,indexedDb.obj.flashing,indexedDb.obj.rename_multi,
-					indexedDb.obj.multi_names,sprite,indexedDb.obj.owp,indexedDb.obj.uwp);
-				setMessage('apply');
-				rom.save();
-		});
+function updateMultidata(multidata) {
+  // Load the multidata file, decompress with pako and parse the JSON
+  var reader = new FileReader();
+  reader.onload = function (e) {
+    var compressed = Uint8Array.from(e.target.result, (c) => c.charCodeAt(0));
+    var decompressed = pako.inflate(compressed);
+    var json = JSON.parse(String.fromCharCode.apply(null, decompressed));
+    // Update the multidata
+    json["names"] = indexedDb.obj.multi_names.split(",");
+    // Compress the multidata and save it
+    var compressed = pako.deflate(JSON.stringify(json), { to: "string" });
+    var blob = new Blob([compressed], { type: "application/octet-stream" });
+    saveAs(blob, multidata.name + "_adjusted");
+  };
+  reader.readAsBinaryString(multidata);
 }
 
-function applyPatch(p,r){
-	indexedDb.save('create');
-	if(p && r){
-		if(CAN_USE_WEB_WORKERS){
-			setMessage('create', 'Applying patch...', 'loading');
-			setTabApplyEnabled(false);
+function adjustPatch(romToAdjust) {
+  indexedDb.save("apply");
+  romToAdjust.fileName = romToAdjust.fileName.replace(
+    /\.([^\.]*?)$/,
+    " (adjusted).$1"
+  );
+  fetchSpriteData(romToAdjust, indexedDb.obj.sprite, (rom, sprite) => {
+    zeldaPatcher(
+      rom,
+      indexedDb.obj.beep,
+      indexedDb.obj.color,
+      indexedDb.obj.quickswap,
+      indexedDb.obj.speed,
+      !indexedDb.obj.music,
+      indexedDb.obj.resume,
+      indexedDb.obj.flashing,
+      indexedDb.obj.rename_multi,
+      indexedDb.obj.multi_names,
+      el("input-multidata").files[0],
+      sprite,
+      indexedDb.obj.owp,
+      indexedDb.obj.uwp
+    );
+    setMessage("apply");
+    rom.save();
+  });
+}
 
-			webWorkerApply.postMessage(
-				{
-					romFileU8Array:r._u8array,
-					patchFileU8Array:patchFile._u8array
-				},[
-					r._u8array.buffer,
-					patchFile._u8array.buffer
-				]
-			);
+function applyPatch(p, r) {
+  indexedDb.save("create");
+  if (p && r) {
+    if (CAN_USE_WEB_WORKERS) {
+      setMessage("create", "Applying patch...", "loading");
+      setTabApplyEnabled(false);
 
-		}else{
-			setMessage('create', 'Applying patch...', 'loading');
+      webWorkerApply.postMessage(
+        {
+          romFileU8Array: r._u8array,
+          patchFileU8Array: patchFile._u8array,
+        },
+        [r._u8array.buffer, patchFile._u8array.buffer]
+      );
+    } else {
+      setMessage("create", "Applying patch...", "loading");
 
-			try{
-				p.apply(r);
-				preparePatchedRom(r, p.apply(r));
-
-			}catch(e){
-				setMessage('create', 'Error: '+e.message, 'error');
-			}
-		}
-
-	}else{
-		setMessage('create', 'No ROM/patch selected', 'error');
-	}
+      try {
+        p.apply(r);
+        preparePatchedRom(r, p.apply(r));
+      } catch (e) {
+        setMessage("create", "Error: " + e.message, "error");
+      }
+    }
+  } else {
+    setMessage("create", "No ROM/patch selected", "error");
+  }
 }
 
 

@@ -34,6 +34,7 @@
 	<script type="text/javascript" src="./js/formats/pmsr.js"></script>
 	<script type="text/javascript" src="./js/formats/vcdiff.js"></script>
 	<script type="text/javascript" src="./js/zip.js/zip.js"></script>
+	<script type="text/javascript" src="./js/pako.min.js"></script>
 
 	<script type="text/javascript">
 		/*
@@ -147,6 +148,13 @@
 			<div class="rightcol renamemulti">
 				<input type="text" id="input-renamemulti" placeholder="Link,Zelda,Ganon..." />
 			</div>
+			<div class="leftcol renamemulti">Multidata (Optional):</div>
+			<div class="rightcol renamemulti">
+				<input type="file" id="input-multidata" class="enabled" />
+				<span data-toggle='tooltip' class='tooltip'
+					title='Only needed once. This will prompt your browser for multiple downloads'>?</span>
+
+			</div>
 			<div class="leftcol">Sprite:</div>
 			<div class="rightcol">
 				<select id="select-sprite">
@@ -253,6 +261,12 @@
 				<div class="leftcol renamemulti2">New Names:</div>
 				<div class="rightcol renamemulti2">
 					<input type="text" id="input-renamemulti2" placeholder="Link,Zelda,Ganon..." />
+				</div>
+				<div class="leftcol renamemulti2">Multidata (Optional):</div>
+				<div class="rightcol renamemulti2">
+					<input type="file" id="input-multidata2" class="enabled" />
+					<span data-toggle='tooltip' class='tooltip'
+						title='Only needed once. This will prompt your browser for multiple downloads'>?</span>
 				</div>
 				<div class="leftcol">Sprite:</div>
 				<div class="rightcol">
