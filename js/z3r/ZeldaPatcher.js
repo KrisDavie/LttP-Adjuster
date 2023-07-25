@@ -54,7 +54,8 @@ function zeldaPatcher(
   vanillaPalette(rom);
   paletteShufflePatch(rom, uwPalettes, owPalettes);
   writeCrc(rom);
-  if (multidata !== null) {
+  if (multidata !== undefined) {
+    console.log("multidata", multidata);
     updateMultidata(multidata);
   }
 }
