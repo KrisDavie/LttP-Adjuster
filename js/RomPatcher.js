@@ -314,7 +314,7 @@ function updateMultidata(multidata) {
     // Compress the multidata and save it
     var compressed = pako.deflate(JSON.stringify(json), { to: "string" });
     var blob = new Blob([compressed], { type: "application/octet-stream" });
-    saveAs(blob, multidata.name + "_adjusted");
+    saveAs(blob, multidata.name.replace("_multidata", "_adjusted_multidata"));
   };
   reader.readAsBinaryString(multidata);
 }
