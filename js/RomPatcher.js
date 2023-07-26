@@ -310,7 +310,7 @@ function updateMultidata(multidata) {
     var decompressed = pako.inflate(compressed);
     var json = JSON.parse(String.fromCharCode.apply(null, decompressed));
     // Update the multidata
-    json["names"] = indexedDb.obj.multi_names.split(",");
+    json["names"] = [indexedDb.obj.multi_names.split(",")];
     // Compress the multidata and save it
     var compressed = pako.deflate(JSON.stringify(json), { to: "string" });
     var blob = new Blob([compressed], { type: "application/octet-stream" });

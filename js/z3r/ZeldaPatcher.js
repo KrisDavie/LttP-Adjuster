@@ -46,7 +46,6 @@ function zeldaPatcher(
   heartBeepPatch(rom, beepRate);
   heartColorPatch(rom, heartColor);
   if (renameMuliPlayers && multiNames !== "") {
-    console.log(multiNames);
     namesPatch(rom, multiNames);
   }
   if (sprite) {
