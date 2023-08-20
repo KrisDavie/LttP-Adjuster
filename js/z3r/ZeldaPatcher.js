@@ -58,17 +58,29 @@ function heartColorPatch(rom, color){
   if(color==='random'){
     color=colorNames[Math.floor(Math.random()*4)];
   }
-  var colorValues={
-    red:[0x24, 0x05],
-    blue:[0x2C, 0x0D],
-    green:[0x3C, 0x19],
-    yellow:[0x28, 0x09]
-  };
-  var addresses=[0x6FA1E,0x6FA20,0x6FA22,0x6FA24,0x6FA26,0x6FA28,0x6FA2A,0x6FA2C,0x6FA2E,0x6FA30];
-  addresses.forEach(address=>{
-    rom.seekWriteU8(address,colorValues[color][0]);
-  })
-  rom.seekWriteU8(0x65561,colorValues[color][1]); //??
+  // Check ROM major version
+  if rom.SeekReadBytes(0x7FE2, 2)[0] => 3 { 
+    var colorValues={
+      red:0x00,
+      blue:0x01,
+      green:0x02,
+      yellow:0x03
+    };
+    rom.seekWriteU8(0x187020,colorValues[color]);
+
+  } else {
+    var colorValues={
+      red:[0x24, 0x06],
+      blue:[0x2C, 0x0E],
+      green:[0x3C, 0x1A],
+      yellow:[0x28, 0x0A]
+    };
+    var addresses=[0x6FA1E,0x6FA20,0x6FA22,0x6FA24,0x6FA26,0x6FA28,0x6FA2A,0x6FA2C,0x6FA2E,0x6FA30];
+    addresses.forEach(address=>{
+      rom.seekWriteU8(address,colorValues[color][0]);
+    })
+    rom.seekWriteU8(0x65561,colorValues[color][1]); // File select tile high byte
+  }
 }
 
 function musicPatch(rom, isMusicDisabled){
