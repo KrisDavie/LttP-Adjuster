@@ -112,7 +112,7 @@ function heartColorPatch(rom, color) {
     color = colorNames[Math.floor(Math.random() * 4)];
   }
   // Check ROM major version
-  if (rom.SeekReadBytes(0x7fe2, 2)[0] >= 3) {
+  if (rom.seekReadBytes(0x7fe2, 2)[0] >= 3) {
     var colorValues = {
       red: 0x00,
       blue: 0x01,
