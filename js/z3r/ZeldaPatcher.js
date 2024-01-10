@@ -27,6 +27,9 @@ function zeldaPatcher(
   beepRate,
   heartColor,
   isQuickswap,
+  isFastROM,
+  itemLagFrames,
+  isPseudoboots,
   menuSpeed,
   isMusicDisabled,
   isMSUResume,
@@ -39,12 +42,17 @@ function zeldaPatcher(
   uwPalettes
 ) {
   quickswapPatch(rom, isQuickswap);
+  fastromPatch(rom, isFastROM);
+  pseudobootsPatch(rom, isPseudoboots);
   musicPatch(rom, isMusicDisabled);
   resumePatch(rom, isMSUResume);
   flashingPatch(rom, isFlashingReduced);
   menuSpeedPatch(rom, menuSpeed);
   heartBeepPatch(rom, beepRate);
   heartColorPatch(rom, heartColor);
+  if (itemLagFrames > 0) {
+    itemLagPatch(rom, itemLagFrames);
+  }
   if (renameMuliPlayers && multiNames !== "") {
     namesPatch(rom, multiNames);
   }
@@ -61,6 +69,31 @@ function zeldaPatcher(
 
 function quickswapPatch(rom, isQuickswap) {
   rom.seekWriteU8(0x18004b, isQuickswap ? 0x01 : 0x00);
+}
+
+function fastromPatch(rom, isFastROM) {
+  if (rom.seekReadBytes(0x7fe2, 2)[0] >= 3) {
+    rom.seekWriteU8(0x187032, isFastROM ? 0x01 : 0x00);
+  }
+}
+
+function pseudobootsPatch(rom, isFastROM) {
+  rom.seekWriteU8(0x18008e, isFastROM ? 0x01 : 0x00);
+}
+
+function itemLagPatch(rom, itemLagFrames) {
+  writeHexBlock(rom,0x007fdc,'6B 3E 94 C1');
+  writeHexBlock(rom,0x048812,'01 E0 A4');
+  rom.seekWriteU8(0x126000, itemLagFrames.toString(16));
+  writeHexBlock(rom,0x126001,'AD E9 02 C9 01 D0 1D 18 AF 3E F4 7E 6F 00 E0 A4 8F 9C 67 7F AF 3E F4 7E CF 9C 67 7F D0 F6 A9 38 9D B1 03 6B 98 9D B1 03 6B');
+}
+
+function writeHexBlock(rom,address,block){
+  rom.seek(address);
+  var bytes=block.split(' ');
+  for(var byte of bytes){
+    rom.writeU8(parseInt(byte,16));
+  }
 }
 
 function menuSpeedPatch(rom, speed) {

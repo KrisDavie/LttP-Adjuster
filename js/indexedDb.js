@@ -4,6 +4,9 @@ function IndexedDb() {
   this.obj = {
     jp_file: null,
     quickswap: true,
+    fastrom: true,
+    pseudoboots: true,
+    itemLagFrames: 0,
     music: true,
     resume: true,
     flashing: false,
@@ -82,6 +85,9 @@ IndexedDb.prototype.loadJpRom = function () {
 
 IndexedDb.prototype.setFormValues = function () {
   el("checkbox-quickswap").checked = this.obj.quickswap;
+  el("checkbox-fastrom").checked = this.obj.fastrom;
+  el("numeric-itemLagFrames").value = this.obj.itemLagFrames;
+  el("checkbox-pseudoboots").checked = this.obj.pseudoboots;
   el("checkbox-music").checked = this.obj.music;
   el("checkbox-resume").checked = this.obj.resume;
   el("checkbox-flashing").checked = this.obj.flashing;
@@ -106,6 +112,9 @@ IndexedDb.prototype.setFormValues = function () {
   el("select-owpalettes").value = this.obj.owp;
   el("select-uwpalettes").value = this.obj.uwp;
   el("checkbox-quickswap2").checked = this.obj.quickswap;
+  el("checkbox-fastrom2").checked = this.obj.fastrom;
+  el("numeric-itemLagFrames2").value = this.obj.itemLagFrames;
+  el("checkbox-pseudoboots2").checked = this.obj.pseudoboots;
   el("checkbox-music2").checked = this.obj.music;
   el("checkbox-resume2").checked = this.obj.resume;
   el("checkbox-flashing2").checked = this.obj.flashing;
@@ -136,6 +145,9 @@ IndexedDb.prototype.save = function (tab) {
   if (tab === "create") id = "2";
   this.saveJpRom();
   this.obj.quickswap = el("checkbox-quickswap" + id).checked;
+  this.obj.fastrom = el("checkbox-fastrom" + id).checked;
+  this.obj.itemLagFrames = el("numeric-itemLagFrames" + id).value;
+  this.obj.pseudoboots = el("checkbox-pseudoboots" + id).checked;
   this.obj.music = el("checkbox-music" + id).checked;
   this.obj.resume = el("checkbox-resume" + id).checked;
   this.obj.flashing = el("checkbox-flashing" + id).checked;
