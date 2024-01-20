@@ -7,6 +7,7 @@ function IndexedDb() {
     fastrom: true,
     pseudoboots: true,
     itemLagFrames: 0,
+    ultraFast: false,
     music: true,
     resume: true,
     flashing: false,
@@ -87,6 +88,7 @@ IndexedDb.prototype.setFormValues = function () {
   el("checkbox-quickswap").checked = this.obj.quickswap;
   el("checkbox-fastrom").checked = this.obj.fastrom;
   el("numeric-itemLagFrames").value = this.obj.itemLagFrames;
+  el("checkbox-ultrafast").checked = this.obj.ultrafast;
   el("checkbox-pseudoboots").checked = this.obj.pseudoboots;
   el("checkbox-music").checked = this.obj.music;
   el("checkbox-resume").checked = this.obj.resume;
@@ -114,6 +116,7 @@ IndexedDb.prototype.setFormValues = function () {
   el("checkbox-quickswap2").checked = this.obj.quickswap;
   el("checkbox-fastrom2").checked = this.obj.fastrom;
   el("numeric-itemLagFrames2").value = this.obj.itemLagFrames;
+  el("checkbox-ultrafast2").checked = this.obj.ultrafast;
   el("checkbox-pseudoboots2").checked = this.obj.pseudoboots;
   el("checkbox-music2").checked = this.obj.music;
   el("checkbox-resume2").checked = this.obj.resume;
@@ -147,6 +150,7 @@ IndexedDb.prototype.save = function (tab) {
   this.obj.quickswap = el("checkbox-quickswap" + id).checked;
   this.obj.fastrom = el("checkbox-fastrom" + id).checked;
   this.obj.itemLagFrames = el("numeric-itemLagFrames" + id).value;
+  this.obj.ultrafast = el("checkbox-ultrafast" + id).checked;
   this.obj.pseudoboots = el("checkbox-pseudoboots" + id).checked;
   this.obj.music = el("checkbox-music" + id).checked;
   this.obj.resume = el("checkbox-resume" + id).checked;

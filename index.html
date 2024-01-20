@@ -83,6 +83,29 @@
 				}
 			}
 		}
+
+		function checkConflicts(instance) {
+			// Make sure that ultrafast and itemlagframes are not both checked
+			if (instance === '2') {
+				var ultrafast = document.getElementById("checkbox-ultrafast2");
+				var itemlagframes = document.getElementById("numeric-itemLagFrames2");
+				fun = applyPatch(patch, romFile1, false)
+				fun = applyPatch;
+			} else {
+				var ultrafast = document.getElementById("checkbox-ultrafast");
+				var itemlagframes = document.getElementById("numeric-itemLagFrames");
+			}
+			if (ultrafast.checked == true && itemlagframes.value > 0) {
+				alert("Ultrafast and Item Lag Frames cannot both be select. Please chose only one of them.");
+				return;
+			} else {
+				if (instance === '2') {
+					applyPatch(patch, romFile1, false)
+				} else {
+					adjustPatch(romFile)
+				}
+			}
+		}
 	</script>
 	
 	<!-- custom code for RHDN -->
@@ -137,6 +160,12 @@
 				<input type="number" id="numeric-itemLagFrames" min="0" max="255" />
 				<span data-toggle='tooltip' class='tooltip'
 					title='How many frames should the game pause for before actually collecting an item? Includes Chests, NPCs, Freestanding items.'>?</span>
+			</div>
+			<div class="leftcol">Utra Fast Fanfare:</div>
+			<div class="rightcol">
+				<input type="checkbox" id="checkbox-ultrafast" />
+				<span data-toggle='tooltip' class='tooltip'
+					title="No fanfare on collecting items (including multiworld). Items show for 4 frames - Don't blink!">?</span>
 			</div>
 			<div class="leftcol">Pseudoboots:</div>
 			<div class="rightcol">
@@ -231,7 +260,7 @@
 
 		<div class="buttons">
 			<span id="message-apply" class="message"></span>
-			<button id="button-apply" class="disabled" disabled onclick="adjustPatch(romFile)">Adjust ROM</button>
+			<button id="button-apply" class="disabled" disabled onclick="checkConflicts()">Adjust ROM</button>
 		</div>
 	</div>
 
@@ -265,6 +294,12 @@
 					<input type="number" id="numeric-itemLagFrames2" min="0" max="255" />
 					<span data-toggle='tooltip' class='tooltip'
 					title='How many frames should the game pause for before actually collecting an item? Includes Chests, NPCs, Freestanding items.'>?</span>
+				</div>
+				<div class="leftcol">Utra Fast Fanfare:</div>
+				<div class="rightcol">
+					<input type="checkbox" id="checkbox-ultrafast2" />
+					<span data-toggle='tooltip' class='tooltip'
+						title="No fanfare on collecting items (including multiworld). Items show for 4 frames - Don't blink!">?</span>
 				</div>
 				<div class="leftcol">Pseudoboots:</div>
 				<div class="rightcol">
@@ -358,7 +393,7 @@
 
 		<div class="buttons">
 			<span id="message-create" class="message"></span>
-			<button id="button-create" class="disabled" disabled onclick="applyPatch(patch, romFile1, false)" data-localize="create_patch">Apply patch</button>
+			<button id="button-create" class="disabled" disabled onclick="checkConflicts('2')" data-localize="create_patch">Apply patch</button>
 		</div>
 	</div>
 </div>
